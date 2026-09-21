@@ -24,4 +24,40 @@ class Ticket {
         this.seatNumber = seatNumber;
     }
 
+    public int getTicketId() {
+        return ticketId;
+    }
+
+    public String getPassengerName() {
+        return passengerName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getPreferredClass() {
+        return preferredClass;
+    }
+
+    public String getClassGiven() {
+        return classGiven;
+    }
+
+    public String getSeatNumber() {
+        return seatNumber;
+    }
+
+    @Override 
+    public String toString() {
+        return "Ticket{" +
+                "ticketId : " + this.ticketId +
+                ", passengerName='" + this.passengerName + '\'' +
+                ", age=" + this.age +
+                ", preferredClass='" + this.preferredClass + '\'' +
+                ", classGiven='" + this.classGiven + '\'' +
+                ", seatNumber='" + this.seatNumber + '\'' +
+                '}';
+    }
+
 }

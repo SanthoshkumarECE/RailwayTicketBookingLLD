@@ -63,6 +63,7 @@ public class Main
                 UserDetailsCOllection.put(userName,new UserDetails(userName));
                 System.out.println("User Created Successfully, Welcome " + userName);
                 userLogged = true;
+                currentUserLogged = userName;
             }
         
         
@@ -75,17 +76,32 @@ public class Main
             System.out.println("5. Log Out");
             System.out.println("Enter your choice : ");
             int choice = sc.nextInt();
+            sc.nextLine();
             TicketBooker ticketBooker = new TicketBooker();
             switch(choice)
             {
                 case 1:
-                    ticketBooker.bookTicket(currentUserLogged, 25, "FC");   
+                    ticketBooker.showAvailableSeats();
+                    System.out.println("Enter Passenger Name : ");  
+                    String passengerName = sc.next();
+                    System.out.println("Enter Age : ");
+                    int age = sc.nextInt();
+                    System.out.println("Enter Preferred Class (FC/SC/RAC/WL) : "); 
+                    String preferredClass = sc.next();
+
+                    if(!preferredClass.equalsIgnoreCase("FC") && !preferredClass.equalsIgnoreCase("SC") && !preferredClass.equalsIgnoreCase("RAC") && !preferredClass.equalsIgnoreCase("WL"))
+                    {
+                        System.out.println("Invalid Class, Please try again");
+                        break;
+                    }   
+
+                    ticketBooker.bookTicket(currentUserLogged,passengerName, age, preferredClass);   
                     break;
                 case 2:
-                    //Cancel Ticket
+                    ticketBooker.cancelTicket(currentUserLogged);   
                     break;
                 case 3:
-                    //View Ticket
+                    ticketBooker.viewTicket(currentUserLogged);
                     break;
                 case 4:
                     ticketBooker.showAvailableSeats();

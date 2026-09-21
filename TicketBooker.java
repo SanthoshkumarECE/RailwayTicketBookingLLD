@@ -16,7 +16,7 @@ public class TicketBooker {
     private static Queue<Integer> RACSeats = createSeatQueue(RAC);
     private static Queue<Integer> WLSeats = createSeatQueue(WL);
 
-    private HashMap<String, Ticket> bookedTickets = new HashMap<>();
+    private static HashMap<String, ArrayDeque<Ticket>> bookedTickets = new HashMap<>();
 
     private static Queue<Integer> createSeatQueue(int count) {
         Queue<Integer> seats = new ArrayDeque<>();
@@ -26,7 +26,7 @@ public class TicketBooker {
         return seats;
     }
 
-    public void bookTicket(String passengerName, int age, String preferredClass) {
+    public void bookTicket(String userName, String passengerName, int age, String preferredClass) {
         String classGiven = null;
         String seatNumber = null;
 
@@ -48,7 +48,10 @@ public class TicketBooker {
         }
 
         Ticket ticket = new Ticket(passengerName, age, preferredClass, classGiven, seatNumber + classGiven);
-        bookedTickets.put(passengerName, ticket);
+        if (!bookedTickets.containsKey(userName)) {
+            bookedTickets.put(userName, new ArrayDeque<>());
+        }
+        bookedTickets.get(userName).offer(ticket);
         System.out.println("Ticket booked successfully for " + passengerName + ". Class: " + classGiven + ", Seat Number: " + seatNumber);
     }
 
@@ -59,4 +62,29 @@ public class TicketBooker {
         System.out.println("Reservation Against Cancellation (RAC): " + RACSeats.size());
         System.out.println("Waiting List (WL): " + WLSeats.size());
     }
+
+    public void viewTicket(String userName) {
+        ArrayDeque<Ticket> tickets = bookedTickets.get(userName);
+        if (tickets != null) {
+            for (Ticket ticket : tickets) {
+                System.out.println("--------------------");
+                System.out.println("TICKET ID : " + ticket.getTicketId());
+                System.out.println("Passenger Name : " + ticket.getPassengerName());
+                System.out.println("Age : " + ticket.getAge());
+                System.out.println("Preferred Class : " + ticket.getPreferredClass());
+                System.out.println("Class Given : " + ticket.getClassGiven());
+                System.out.println("Seat Number : " + ticket.getSeatNumber());
+                System.out.println("--------------------");
+            }
+        } else {
+            System.out.println("No ticket found for " + userName);
+        }
+    }
+
+    public void cancelTicket(String userName)
+    {
+
+    }
+
+
 }
