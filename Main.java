@@ -98,7 +98,10 @@ public class Main
                     ticketBooker.bookTicket(currentUserLogged,passengerName, age, preferredClass);   
                     break;
                 case 2:
-                    ticketBooker.cancelTicket(currentUserLogged);   
+                    // ticketBooker.viewTicket(currentUserLogged);
+                    // System.out.println("Enter Ticket ID to cancel : ");
+                    // int ticketId = sc.nextInt();
+                    // ticketBooker.cancelTicket(currentUserLogged, ticketId);
                     break;
                 case 3:
                     ticketBooker.viewTicket(currentUserLogged);
@@ -110,11 +113,8 @@ public class Main
                     logOutUser(currentUserLogged);
                     break;
                 default:
-                    System.out.println("Invalid Choice");
-            }
-
-
-            
+                    System.out.println("Invalid Choice , Please try again");
+            }        
             }
 
         }
