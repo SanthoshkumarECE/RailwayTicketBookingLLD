@@ -81,7 +81,45 @@ public class TicketBooker {
         }
     }
 
-    public void cancelTicket(String userName)
+    public void cancelTicket(String userName,int ticketId) {
+        ArrayDeque<Ticket> tickets = bookedTickets.get(userName);
+        if (tickets != null) {
+            Ticket ticketToCancel = null;
+            for (Ticket ticket : tickets) {
+                if (ticket.getTicketId() == ticketId) {
+                    ticketToCancel = ticket;
+                    break;
+                }
+            }
+            if (ticketToCancel != null) {
+                tickets.remove(ticketToCancel);
+                String classGiven = ticketToCancel.getClassGiven();
+                if (classGiven.equalsIgnoreCase("FC")) {
+                    FCSeats.offer(Integer.parseInt(ticketToCancel.getSeatNumber()));
+                } else if (classGiven.equalsIgnoreCase("SC")) {
+                    SCSeats.offer(Integer.parseInt(ticketToCancel.getSeatNumber()));
+                } else if (classGiven.equalsIgnoreCase("RAC")) {
+                    RACSeats.offer(Integer.parseInt(ticketToCancel.getSeatNumber()));
+                } else if (classGiven.equalsIgnoreCase("WL")) {
+                    WLSeats.offer(Integer.parseInt(ticketToCancel.getSeatNumber()));
+                }
+                System.out.println("Ticket with ID " + ticketId + " canceled successfully.");
+            } else {
+                System.out.println("No ticket found with ID " + ticketId + " for user " + userName);
+            }
+        } else {
+            System.out.println("No tickets found for user " + userName);
+        }
+        if(ticketToCancel.getClassGiven().equalsIgnoreCase("FC") && !RACSeats.isEmpty())
+        {
+            Ticket racTicket = RACSeats.poll();
+            String newSeatNumber = String.valueOf(FCSeats.poll());
+            racTicket = new Ticket(racTicket.getPassengerName(), racTicket.getAge(), racTicket.getPreferredClass(), "FC", newSeatNumber + "FC");
+            tickets.offer(racTicket);
+            System.out.println("RAC ticket upgraded to FC for passenger: " + racTicket.getPassengerName() + ". New Seat Number: " + newSeatNumber);
+        }
+        
+    }
     {
 
     }
